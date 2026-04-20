@@ -7,7 +7,7 @@ def formatting_dictionary_to_list(servers):
     return(server_list)
 
 
-def summary_of_servers(servers):
+def server_summary(servers):
     for server in servers:
         print(server.get("hostname"), server.get("region"), server.get("datacenter"), server.get("status"), sep = "---------")
         
@@ -68,15 +68,13 @@ def tag_filter(servers):
                 print(server_name, server_status)
                 
                     
-
-           
 def restart(servers):
     for server in servers:
         server_name = server.get("hostname")
         server_status = server.get("status")
         services = server.get("services")
         if server.get("status") != "online":
-            print("Physical Server Problem. Can only be fixed manually.")
+            print(server_name, server_status, "Physical Server Problem. Can only be fixed manually.", sep="----")
             team_alert()
         else:
             for i, j in services.items():
@@ -88,13 +86,13 @@ def restart(servers):
                 restart_attempts = j.get("restart_attempts")
                 if server_status == "online" and service_status != "online":
                     if depends == "" and auto_restart == True and max_attempts > restart_attempts:
-                        print(f"{server_name} {server_status} {service_name} {service_status} Starting Service. Please wait")
+                        print(server_name, server_status, service_name, service_status, "Starting Service. Please wait", sep="----")
                         # fuction to start service
                     else:
                         auto_restart == True
                         max_attempts = 5
                         restart_attempts = 0
-                        print(f"{server_name} {server_status} {service_name} {service_status} Fixing Dependencies and Starting Service. Please wait")
+                        print(server_name, server_status, service_name, service_status, "Fixing Dependencies and Starting Service. Please wait", sep="----")
                         # fuction to start service
                             
                             

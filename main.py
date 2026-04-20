@@ -1,4 +1,4 @@
-from functions import formatting_dictionary_to_list, summary_of_servers, region_filter, status_problems, resourse_problems, team_alert, tag_filter, restart
+from functions import formatting_dictionary_to_list, server_summary, region_filter, status_problems, resourse_problems, team_alert, tag_filter, restart
 
 
 infrastructure = {
@@ -339,7 +339,7 @@ formatted_server_list = [
 
 # ---------------------------   STEP 2: SUMMARY   ------------------------
 
-# summary_of_servers(formatted_server_list)
+# server_summary(formatted_server_list)
 
 
 
@@ -370,74 +370,99 @@ formatted_server_list = [
 
 # team_alert()
 
+# -----------------------------   STEP 8: RESTART SERVICE   -----------------------
+
+# restart(formatted_server_list)
+
+# -----------------------------------------done-------------------------------------
+
+
 
 
 # MAIN MNU
 
 
-# def go_back():
-#     Q = input("Do you want to go back or quit? B or Q: ").lower()
-#     if Q == "b":
-#         print("------Going back to Main Menu------")
-#         start()
-#     elif Q == "q":
-#         main_menu = False
-#     else:
-#         print("Wrong Input")
-#         go_back()
+def go_back():
+    Q = input("Do you want to go Back to MAIN MANU or Quit? B or Q: ").lower()
+    if Q == "b":
+        print("------Going back to Main Menu------")
+        start()
+    elif Q == "q":
+        print("Goodbye")
+        main_menu = False
 
+    else:
+        print("Wrong Input")
+        go_back()
 
-# def start():
-#     main_menu = True
-#     print("Welcome to SERVER MANAGEMENT PROJECT!")
-#     print("Press respective keys: ")
-#     print("1. Servers Summary")
-#     print("2. Region Filter")
-#     print("3. Status Problems")
-#     print("4. Resource Problems")
-#     print("5. Tag Filter Search")
-#     print("6. Service Restart")
-#     print("0. SHUT DOWN")
+def intro():
+        print('''
+        ----------------------------------------------------------
+        |                                                        |
+        |                                                        |
+        |        Welcome to SERVER MANAGEMENT PROJECT! :)        |
+        |                                                        |
+        |                                                        |
+        |            Press respective key to continue:           |
+        |                                                        |
+        |                                                        |
+        |                 1. Servers Summary                     |
+        |                 2. Region Filter                       |
+        |                 3. Status Problems                     |
+        |                 4. Resource Problems                   |
+        |                 5. Tag Filter Search                   |
+        |                 6. Service Restart                     |
+        |                                                        |
+        |                                                        |
+        |                 0. SHUT DOWN                           |
+        |                                                        |
+        |                                                        |
+        ----------------------------------------------------------''')
+        
+def start():
+    
+    main_menu = True
+    
+    intro()
 
-#     user_input = input("Pick a number 0-6 based on your needs: ")
+    user_input = input("Pick a number 0-6 based on your needs:")
 
-#     while main_menu == True:
-#         if user_input == "1":
-#             summary_of_servers(formatted_server_list)
-#             go_back()
+    while main_menu == True:
+        if user_input == "1":
+            server_summary(formatted_server_list)
+            go_back()
             
-#         elif user_input == "2":
-#             region_filter(formatted_server_list)
-#             go_back()
+        elif user_input == "2":
+            region_filter(formatted_server_list)
+            go_back()
 
-#         elif user_input == "3":
-#             status_problems(formatted_server_list)
-#             go_back()
+        elif user_input == "3":
+            status_problems(formatted_server_list)
+            go_back()
 
-#         elif user_input == "4":
-#             resourse_problems(formatted_server_list)
-#             go_back()
+        elif user_input == "4":
+            resourse_problems(formatted_server_list)
+            go_back()
 
-#         elif user_input == "5":
-#             tag_filter(formatted_server_list)
-#             go_back()
+        elif user_input == "5":
+            tag_filter(formatted_server_list)
+            go_back()
 
-#         elif user_input == "6":
-#             restart(formatted_server_list)
-#             go_back()
+        elif user_input == "6":
+            restart(formatted_server_list)
+            go_back()
 
-#         elif user_input == "0":
-#             main_menu = False
+        elif user_input == "0":
+            main_menu = False
 
-#         else:
-#             print("Wrong input!")
-#             print("Try again!")
-#             start()
+        else:
+            print("Wrong input!")
+            print("Try again!")
+            start()
 
-#     print("Goodbye!")
+    print("Goodbye!")
         
     
-# start()
+start()
 
 
-# restart(formatted_server_list)
