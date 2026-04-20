@@ -335,20 +335,93 @@ formatted_server_list = [
     }
 ]
 
+
+
 # ---------------------------   STEP 2: SUMMARY   ------------------------
 
 # summary_of_servers(formatted_server_list)
+
+
 
 # ----------------------------   STEP 3: REGION   -------------------------
 
 # region_filter(formatted_server_list)
 
-# ---------------------------   STEP 4: STATUS PROBLEMS   ------------------------
+
+
+# ---------------------------   STEP 4: STATUS PROBLEMS   -----------------------
 
 # status_problems(formatted_server_list)
 
-# ---------------------------   STEP 5: RESOURCE PROBLEMS   ------------------------
+
+
+# --------------------------   STEP 5: RESOURCE PROBLEMS   -----------------------
 
 # resourse_problems(formatted_server_list)
 
-tag_filter(formatted_server_list)
+
+
+# ------------------------------   STEP 6: TAG FILTER   ---------------------------
+
+# tag_filter(formatted_server_list)
+
+
+# ------------------------------   STEP 7: TEAM ALERT   ---------------------------
+
+
+
+
+
+
+# MAIN MNU
+
+stage = 0
+
+def start(step):
+    print("Welcome to SERVER MANAGEMENT PROJECT!")
+    print("Press respective keys: ")
+    print("1. Servers Summary")
+    print("2. Region Filter")
+    print("3. Status Problems")
+    print("4. Resource Problems")
+    print("5. Tag Filter Search")
+    print("6. Service Restart")
+    print("0. SHUT DOWN")
+    user_input = input("Pick a number 0-6 based on your needs: ")
+    main_menu = True
+    while main_menu == True:
+        if user_input == "1":
+            summary_of_servers(formatted_server_list)
+            print("#####Going back to Main Menu#####")
+            start(step)
+        elif user_input == "2":
+            region_filter(formatted_server_list)
+            print("#####Going back to Main Menu#####")
+            start(step)
+        elif user_input == "3":
+            status_problems(formatted_server_list)
+            print("#####Going back to Main Menu#####")
+            start(step)
+        elif user_input == "4":
+            resourse_problems(formatted_server_list)
+            print("#####Going back to Main Menu#####")
+            start(step)
+        elif user_input == "5":
+            tag_filter(formatted_server_list)
+            print("#####Going back to Main Menu#####")
+            start(step)
+        elif user_input == "6":
+            resourse_problems(formatted_server_list)
+            print("#####Going back to Main Menu#####")
+            start(step)
+        elif user_input == "0":
+            main_menu = False
+        else:
+            print("Wrong input!")
+            print("Try again!")
+            start(step)
+    print("Goodbye!")
+        
+
+    
+start(stage)
