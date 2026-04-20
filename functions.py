@@ -7,12 +7,10 @@ def formatting_dictionary_to_list(servers):
     return(server_list)
 
 
-
 def summary_of_servers(servers):
     for server in servers:
         print(server.get("hostname"), server.get("region"), server.get("datacenter"), server.get("status"), sep = "---------")
         
-
 
 def region_filter(servers):
     user_input_region = input("Enter a region to get info (eu-central, eu-west, us-east, or ap-southeast): ")
@@ -22,12 +20,16 @@ def region_filter(servers):
 
 
 def team_alert():
-    ask = input("Do you want to alert the respective support teams? Y or N: ").lower()
+    ask = input("Do you want to alert the respective support team? Y or N: ").lower()
     if ask == "y":
         # fucion alert to support team
-        print("Respective support teams have been alerted about the problems and will get back to you.")
+        print("Respective support team has been alerted about the problems and will get back to you.")
+    elif ask == "n":
+        print("Goodbye!")
     else:
-        "Goodbye!"
+        print("Wrong Input! Try again.")
+        team_alert()
+
 
 def status_problems(servers):
     for server in servers:
@@ -40,8 +42,6 @@ def status_problems(servers):
             if not (server_status == "online" and service_status == "online"):
                 print(server_name, server_status, service_name, service_status, sep = "---------")
     team_alert()
-
-            
 
 
 def resourse_problems(servers):
@@ -66,9 +66,10 @@ def tag_filter(servers):
         for tag in server.get("tags"):
             if tag_search == tag:
                 print(server_name, server_status)
-                 
-            
+                
+                    
 
+           
 def restart(servers):
     for server in servers:
         server_name = server.get("hostname")
@@ -78,10 +79,25 @@ def restart(servers):
             print("Physical Server Problem. Can only be fixed manually.")
             team_alert()
         else:
-            for server in servers:
+            for i, j in services.items():
+                service_name = i
+                service_status = j.get("status")
+                depends = j.get("depends_on")
+                auto_restart = j.get("auto_restart")
+                max_attempts = j.get("max_restart_attempts")
+                restart_attempts = j.get("restart_attempts")
+                if server_status == "online" and service_status != "online":
+                    if depends == "" and auto_restart == True and max_attempts > restart_attempts:
+                        print(f"{server_name} {server_status} {service_name} {service_status} Starting Service. Please wait")
+                        # fuction to start service
+                    else:
+                        auto_restart == True
+                        max_attempts = 5
+                        restart_attempts = 0
+                        print(f"{server_name} {server_status} {service_name} {service_status} Fixing Dependencies and Starting Service. Please wait")
+                        # fuction to start service
+                            
+                            
 
-                for i, j in services.items():
-                    service_name = i
-                    service_status = j.get("status")
                     
 

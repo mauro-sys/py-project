@@ -1,4 +1,4 @@
-from functions import formatting_dictionary_to_list, summary_of_servers, region_filter, status_problems, resourse_problems, tag_filter
+from functions import formatting_dictionary_to_list, summary_of_servers, region_filter, status_problems, resourse_problems, team_alert, tag_filter, restart
 
 
 infrastructure = {
@@ -21,7 +21,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 3,
                 "max_restart_attempts": 3,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "worker process exited unexpectedly"
             },
             "app_server": {
@@ -30,7 +30,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 1,
                 "max_restart_attempts": 5,
-                "depends_on": ["nginx"],
+                "depends_on": "nginx",
                 "last_error": "cannot bind to port 3000"
             },
             "postgres": {
@@ -39,7 +39,7 @@ infrastructure = {
                 "auto_restart": False,
                 "restart_attempts": 0,
                 "max_restart_attempts": 3,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": None
             }
         }
@@ -63,7 +63,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 0,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "host unreachable"
             },
             "redis": {
@@ -72,7 +72,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 0,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "host unreachable"
             }
         }
@@ -96,7 +96,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 2,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "no space left on device"
             },
             "prometheus": {
@@ -105,7 +105,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 0,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": None
             }
         }
@@ -129,7 +129,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 0,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": None
             },
             "celery_worker": {
@@ -138,7 +138,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 4,
                 "max_restart_attempts": 5,
-                "depends_on": ["redis"],
+                "depends_on": "redis",
                 "last_error": "connection to redis refused"
             },
             "redis": {
@@ -147,7 +147,7 @@ infrastructure = {
                 "auto_restart": False,
                 "restart_attempts": 0,
                 "max_restart_attempts": 3,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "OOM: out of memory"
             }
         }
@@ -171,7 +171,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 0,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": None
             },
             "docker_daemon": {
@@ -180,7 +180,7 @@ infrastructure = {
                 "auto_restart": False,
                 "restart_attempts": 0,
                 "max_restart_attempts": 0,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "failed to start containerd"
             }
         }
@@ -204,7 +204,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 2,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": "VCL compilation error"
             },
             "haproxy": {
@@ -213,7 +213,7 @@ infrastructure = {
                 "auto_restart": True,
                 "restart_attempts": 0,
                 "max_restart_attempts": 5,
-                "depends_on": [],
+                "depends_on": "",
                 "last_error": None
             }
         }
@@ -242,9 +242,9 @@ formatted_server_list = [
         "tags": ["production", "web", "high-traffic"],
         "on_call_team": "team-alpha",
         "services": {
-            "nginx": {"status": "down", "port": 80, "auto_restart": True, "restart_attempts": 3, "max_restart_attempts": 3, "depends_on": [], "last_error": "worker process exited unexpectedly"},
-            "app_server": {"status": "down", "port": 3000, "auto_restart": True, "restart_attempts": 1, "max_restart_attempts": 5, "depends_on": ["nginx"], "last_error": "cannot bind to port 3000"},
-            "postgres": {"status": "online", "port": 5432, "auto_restart": False, "restart_attempts": 0, "max_restart_attempts": 3, "depends_on": [], "last_error": None}
+            "nginx": {"status": "down", "port": 80, "auto_restart": True, "restart_attempts": 3, "max_restart_attempts": 3, "depends_on": "", "last_error": "worker process exited unexpectedly"},
+            "app_server": {"status": "down", "port": 3000, "auto_restart": True, "restart_attempts": 1, "max_restart_attempts": 5, "depends_on": "nginx", "last_error": "cannot bind to port 3000"},
+            "postgres": {"status": "online", "port": 5432, "auto_restart": False, "restart_attempts": 0, "max_restart_attempts": 3, "depends_on": "", "last_error": None}
         }
     },
     {
@@ -260,8 +260,8 @@ formatted_server_list = [
         "tags": ["production", "database"],
         "on_call_team": "team-alpha",
         "services": {
-            "mysql": {"status": "down", "port": 3306, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": [], "last_error": "host unreachable"},
-            "redis": {"status": "down", "port": 6379, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": [], "last_error": "host unreachable"}
+            "mysql": {"status": "down", "port": 3306, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": "", "last_error": "host unreachable"},
+            "redis": {"status": "down", "port": 6379, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": "", "last_error": "host unreachable"}
         }
     },
     {
@@ -277,8 +277,8 @@ formatted_server_list = [
         "tags": ["staging", "storage"],
         "on_call_team": "team-beta",
         "services": {
-            "minio": {"status": "down", "port": 9000, "auto_restart": True, "restart_attempts": 2, "max_restart_attempts": 5, "depends_on": [], "last_error": "no space left on device"},
-            "prometheus": {"status": "online", "port": 9090, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": [], "last_error": None}
+            "minio": {"status": "down", "port": 9000, "auto_restart": True, "restart_attempts": 2, "max_restart_attempts": 5, "depends_on": "", "last_error": "no space left on device"},
+            "prometheus": {"status": "online", "port": 9090, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": "", "last_error": None}
         }
     },
     {
@@ -294,9 +294,9 @@ formatted_server_list = [
         "tags": ["production", "api"],
         "on_call_team": "team-gamma",
         "services": {
-            "api_gateway": {"status": "online", "port": 8080, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": [], "last_error": None},
-            "celery_worker": {"status": "down", "port": None, "auto_restart": True, "restart_attempts": 4, "max_restart_attempts": 5, "depends_on": ["redis"], "last_error": "connection to redis refused"},
-            "redis": {"status": "down", "port": 6379, "auto_restart": False, "restart_attempts": 0, "max_restart_attempts": 3, "depends_on": [], "last_error": "OOM: out of memory"}
+            "api_gateway": {"status": "online", "port": 8080, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": "", "last_error": None},
+            "celery_worker": {"status": "down", "port": None, "auto_restart": True, "restart_attempts": 4, "max_restart_attempts": 5, "depends_on": "redis", "last_error": "connection to redis refused"},
+            "redis": {"status": "down", "port": 6379, "auto_restart": False, "restart_attempts": 0, "max_restart_attempts": 3, "depends_on": "", "last_error": "OOM: out of memory"}
         }
     },
     {
@@ -312,8 +312,8 @@ formatted_server_list = [
         "tags": ["production", "web", "high-traffic"],
         "on_call_team": "team-gamma",
         "services": {
-            "nginx": {"status": "online", "port": 80, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": [], "last_error": None},
-            "docker_daemon": {"status": "down", "port": None, "auto_restart": False, "restart_attempts": 0, "max_restart_attempts": 0, "depends_on": [], "last_error": "failed to start containerd"}
+            "nginx": {"status": "online", "port": 80, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": "", "last_error": None},
+            "docker_daemon": {"status": "down", "port": None, "auto_restart": False, "restart_attempts": 0, "max_restart_attempts": 0, "depends_on": "", "last_error": "failed to start containerd"}
         }
     },
     {
@@ -329,8 +329,8 @@ formatted_server_list = [
         "tags": ["production", "cdn"],
         "on_call_team": "team-delta",
         "services": {
-            "varnish": {"status": "down", "port": 6081, "auto_restart": True, "restart_attempts": 2, "max_restart_attempts": 5, "depends_on": [], "last_error": "VCL compilation error"},
-            "haproxy": {"status": "online", "port": 443, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": [], "last_error": None}
+            "varnish": {"status": "down", "port": 6081, "auto_restart": True, "restart_attempts": 2, "max_restart_attempts": 5, "depends_on": "", "last_error": "VCL compilation error"},
+            "haproxy": {"status": "online", "port": 443, "auto_restart": True, "restart_attempts": 0, "max_restart_attempts": 5, "depends_on": "", "last_error": None}
         }
     }
 ]
@@ -368,60 +368,76 @@ formatted_server_list = [
 
 # ------------------------------   STEP 7: TEAM ALERT   ---------------------------
 
-
-
+# team_alert()
 
 
 
 # MAIN MNU
 
-stage = 0
 
-def start(step):
-    print("Welcome to SERVER MANAGEMENT PROJECT!")
-    print("Press respective keys: ")
-    print("1. Servers Summary")
-    print("2. Region Filter")
-    print("3. Status Problems")
-    print("4. Resource Problems")
-    print("5. Tag Filter Search")
-    print("6. Service Restart")
-    print("0. SHUT DOWN")
-    user_input = input("Pick a number 0-6 based on your needs: ")
-    main_menu = True
-    while main_menu == True:
-        if user_input == "1":
-            summary_of_servers(formatted_server_list)
-            print("#####Going back to Main Menu#####")
-            start(step)
-        elif user_input == "2":
-            region_filter(formatted_server_list)
-            print("#####Going back to Main Menu#####")
-            start(step)
-        elif user_input == "3":
-            status_problems(formatted_server_list)
-            print("#####Going back to Main Menu#####")
-            start(step)
-        elif user_input == "4":
-            resourse_problems(formatted_server_list)
-            print("#####Going back to Main Menu#####")
-            start(step)
-        elif user_input == "5":
-            tag_filter(formatted_server_list)
-            print("#####Going back to Main Menu#####")
-            start(step)
-        elif user_input == "6":
-            resourse_problems(formatted_server_list)
-            print("#####Going back to Main Menu#####")
-            start(step)
-        elif user_input == "0":
-            main_menu = False
-        else:
-            print("Wrong input!")
-            print("Try again!")
-            start(step)
-    print("Goodbye!")
+# def go_back():
+#     Q = input("Do you want to go back or quit? B or Q: ").lower()
+#     if Q == "b":
+#         print("------Going back to Main Menu------")
+#         start()
+#     elif Q == "q":
+#         main_menu = False
+#     else:
+#         print("Wrong Input")
+#         go_back()
+
+
+# def start():
+#     main_menu = True
+#     print("Welcome to SERVER MANAGEMENT PROJECT!")
+#     print("Press respective keys: ")
+#     print("1. Servers Summary")
+#     print("2. Region Filter")
+#     print("3. Status Problems")
+#     print("4. Resource Problems")
+#     print("5. Tag Filter Search")
+#     print("6. Service Restart")
+#     print("0. SHUT DOWN")
+
+#     user_input = input("Pick a number 0-6 based on your needs: ")
+
+#     while main_menu == True:
+#         if user_input == "1":
+#             summary_of_servers(formatted_server_list)
+#             go_back()
+            
+#         elif user_input == "2":
+#             region_filter(formatted_server_list)
+#             go_back()
+
+#         elif user_input == "3":
+#             status_problems(formatted_server_list)
+#             go_back()
+
+#         elif user_input == "4":
+#             resourse_problems(formatted_server_list)
+#             go_back()
+
+#         elif user_input == "5":
+#             tag_filter(formatted_server_list)
+#             go_back()
+
+#         elif user_input == "6":
+#             restart(formatted_server_list)
+#             go_back()
+
+#         elif user_input == "0":
+#             main_menu = False
+
+#         else:
+#             print("Wrong input!")
+#             print("Try again!")
+#             start()
+
+#     print("Goodbye!")
         
-
     
-start(stage)
+# start()
+
+
+# restart(formatted_server_list)

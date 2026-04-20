@@ -1,3 +1,7 @@
+
+to fix -- ctrl c and other inputs
+
+
 Cannot restart if the server itself is down.
     check server status:
         if server_status != online
@@ -27,3 +31,14 @@ Cannot restart if any service listed in depends_on is also down on the same serv
                     depends_on = on
                 
 Can restart only if none of the blockers above exist.
+
+
+
+
+
+
+main fuction
+step 1 from 0-6
+step 2 go back 1 step
+or 
+alert the support
