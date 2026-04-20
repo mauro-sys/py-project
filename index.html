@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOC Python Problem Sheet</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#171614; --surface:#1c1b19; --surface2:#201f1d; --surface3:#262421;
+      --text:#ece8e1; --muted:#b7b1a7; --faint:#8f897f; --border:rgba(236,232,225,.12);
+      --primary:#4f98a3; --warning:#e8af34; --danger:#d163a7; --success:#6daa45;
+      --radius:18px; --shadow:0 16px 48px rgba(0,0,0,.28);
+      --font-body:'Satoshi', system-ui, sans-serif; --font-display:'Cabinet Grotesk', system-ui, sans-serif;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; font-family:var(--font-body); background:
+        radial-gradient(circle at top right, rgba(79,152,163,.18), transparent 30%),
+        radial-gradient(circle at left center, rgba(209,99,167,.10), transparent 28%),
+        var(--bg);
+      color:var(--text); line-height:1.6;
+    }
+    .wrap { max-width:1100px; margin:0 auto; padding:32px 20px 72px; }
+    .hero, .panel, .task, .rule, .tips, .sample, .extension {
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+    }
+    .hero { padding:32px; margin-bottom:24px; }
+    .eyebrow { color:var(--primary); font-size:.88rem; text-transform:uppercase; letter-spacing:.18em; font-weight:700; }
+    h1, h2, h3 { font-family:var(--font-display); line-height:1.08; margin:0 0 12px; }
+    h1 { font-size:clamp(2rem, 5vw, 4rem); max-width:12ch; }
+    h2 { font-size:clamp(1.35rem, 3vw, 2rem); }
+    h3 { font-size:1.15rem; }
+    p { margin:0 0 12px; color:var(--muted); max-width:75ch; }
+    .grid { display:grid; gap:18px; }
+    .grid.cols-2 { grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); }
+    .panel { padding:24px; margin-bottom:20px; }
+    .task-list { display:grid; gap:16px; }
+    .task { padding:18px 18px 16px; }
+    .task-num {
+      display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px;
+      border-radius:999px; background:rgba(79,152,163,.16); color:var(--primary); font-weight:700; margin-bottom:10px;
+    }
+    .rule-list { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; }
+    .rule { padding:16px; }
+    .rule strong { color:var(--text); }
+    ul { margin:10px 0 0 18px; color:var(--muted); }
+    li { margin:7px 0; }
+    pre {
+      margin:0; padding:18px; overflow:auto; border-radius:16px; background:#11100f;
+      border:1px solid rgba(255,255,255,.08); color:#efe8db; font-size:.92rem;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .badge {
+      display:inline-block; padding:6px 10px; border-radius:999px; font-size:.82rem; font-weight:700;
+      background:rgba(232,175,52,.12); color:var(--warning); margin:0 8px 8px 0;
+    }
+    .accent { color:var(--text); font-weight:700; }
+    .footer-note { margin-top:18px; color:var(--faint); font-size:.95rem; }
+    .sample, .extension, .tips { padding:20px; }
+    .sticky-nav {
+      position:sticky; top:12px; z-index:5; display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px;
+      background:rgba(23,22,20,.72); backdrop-filter:blur(14px); padding:12px; border:1px solid var(--border); border-radius:16px;
+    }
+    .sticky-nav a {
+      color:var(--text); text-decoration:none; font-size:.92rem; padding:8px 12px; border-radius:999px;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+    }
+    .sticky-nav a:hover { background:rgba(79,152,163,.14); color:#fff; }
+    .callout {
+      padding:14px 16px; border-left:3px solid var(--primary); background:rgba(79,152,163,.08); border-radius:12px;
+      color:var(--muted); margin-top:12px;
+    }
+    .danger { border-left-color:var(--danger); background:rgba(209,99,167,.08); }
+    .success { border-left-color:var(--success); background:rgba(109,170,69,.08); }
+    .two-col { display:grid; gap:20px; grid-template-columns:1.15fr .85fr; }
+    @media (max-width: 860px) { .two-col { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="sticky-nav">
+      <a href="#scenario">Scenario</a>
+      <a href="#data">Data</a>
+      <a href="#tasks">Tasks</a>
+      <a href="#rules">Rules</a>
+      <a href="#extras">Creative extras</a>
+    </nav>
+
+    <section class="hero" id="scenario">
+      <div class="eyebrow">Python practice challenge</div>
+      <h1>The 2 AM NOC Incident Problem</h1>
+      <p>You are a DevOps engineer at a company called <span class="accent">NovaCloud</span>. Several Ubuntu VPS servers and the services running on them are going down for different reasons. Monitoring is noisy, alerts are piling up, and your task is to build a Python program that can inspect a large nested dictionary, filter useful information, identify what is broken, and decide what actions are valid.</p>
+      <p>This is a <span class="accent">problem statement only</span>. Do not solve it directly. Build your own Python solution using the concepts you already know: dictionaries, tuples, loops, conditions, lists, and user input.</p>
+      <div>
+        <span class="badge">Nested dictionaries</span>
+        <span class="badge">Filtering by region</span>
+        <span class="badge">Service dependency logic</span>
+        <span class="badge">Operational rules</span>
+        <span class="badge">No solutions included</span>
+      </div>
+    </section>
+
+    <section class="panel two-col" id="data">
+      <div>
+        <h2>Infrastructure snapshot</h2>
+        <p>You receive a single dictionary called <code>infrastructure</code>. Each key is a server ID, and each value is another dictionary containing metadata about the server and its services.</p>
+        <div class="callout">Your code should be designed so you can inspect the whole infrastructure, but also narrow it down with filters like region, team, tag, server status, or service status.</div>
+      </div>
+      <div class="sample">
+        <h3>Expected shape</h3>
+<pre><code>infrastructure = {
+    "server-id": {
+        "hostname": "...",
+        "region": "...",
+        "datacenter": "...",
+        "status": "online | degraded | down",
+        "os": "Ubuntu ...",
+        "uptime_hours": 0,
+        "cpu_usage_percent": 0,
+        "ram_usage_percent": 0,
+        "disk_usage_percent": 0,
+        "tags": ["production", "web"],
+        "on_call_team": "team-name",
+        "services": {
+            "service-name": {
+                "status": "online | down",
+                "port": 80,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 3,
+                "depends_on": ["other-service"],
+                "last_error": "..."
+            }
+        }
+    }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Use this populated dictionary</h2>
+<pre><code>infrastructure = {
+    "srv-eu-01": {
+        "hostname": "nova-frankfurt-01",
+        "region": "eu-central",
+        "datacenter": "Frankfurt",
+        "status": "online",
+        "os": "Ubuntu 22.04",
+        "uptime_hours": 340,
+        "cpu_usage_percent": 92,
+        "ram_usage_percent": 87,
+        "disk_usage_percent": 45,
+        "tags": ["production", "web", "high-traffic"],
+        "on_call_team": "team-alpha",
+        "services": {
+            "nginx": {
+                "status": "down",
+                "port": 80,
+                "auto_restart": True,
+                "restart_attempts": 3,
+                "max_restart_attempts": 3,
+                "depends_on": [],
+                "last_error": "worker process exited unexpectedly"
+            },
+            "app_server": {
+                "status": "down",
+                "port": 3000,
+                "auto_restart": True,
+                "restart_attempts": 1,
+                "max_restart_attempts": 5,
+                "depends_on": ["nginx"],
+                "last_error": "cannot bind to port 3000"
+            },
+            "postgres": {
+                "status": "online",
+                "port": 5432,
+                "auto_restart": False,
+                "restart_attempts": 0,
+                "max_restart_attempts": 3,
+                "depends_on": [],
+                "last_error": None
+            }
+        }
+    },
+    "srv-eu-02": {
+        "hostname": "nova-frankfurt-02",
+        "region": "eu-central",
+        "datacenter": "Frankfurt",
+        "status": "down",
+        "os": "Ubuntu 20.04",
+        "uptime_hours": 0,
+        "cpu_usage_percent": 0,
+        "ram_usage_percent": 0,
+        "disk_usage_percent": 78,
+        "tags": ["production", "database"],
+        "on_call_team": "team-alpha",
+        "services": {
+            "mysql": {
+                "status": "down",
+                "port": 3306,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": "host unreachable"
+            },
+            "redis": {
+                "status": "down",
+                "port": 6379,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": "host unreachable"
+            }
+        }
+    },
+    "srv-eu-03": {
+        "hostname": "nova-amsterdam-01",
+        "region": "eu-west",
+        "datacenter": "Amsterdam",
+        "status": "degraded",
+        "os": "Ubuntu 22.04",
+        "uptime_hours": 12,
+        "cpu_usage_percent": 55,
+        "ram_usage_percent": 91,
+        "disk_usage_percent": 97,
+        "tags": ["staging", "storage"],
+        "on_call_team": "team-beta",
+        "services": {
+            "minio": {
+                "status": "down",
+                "port": 9000,
+                "auto_restart": True,
+                "restart_attempts": 2,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": "no space left on device"
+            },
+            "prometheus": {
+                "status": "online",
+                "port": 9090,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": None
+            }
+        }
+    },
+    "srv-us-01": {
+        "hostname": "nova-virginia-01",
+        "region": "us-east",
+        "datacenter": "Virginia",
+        "status": "online",
+        "os": "Ubuntu 22.04",
+        "uptime_hours": 720,
+        "cpu_usage_percent": 20,
+        "ram_usage_percent": 40,
+        "disk_usage_percent": 55,
+        "tags": ["production", "api"],
+        "on_call_team": "team-gamma",
+        "services": {
+            "api_gateway": {
+                "status": "online",
+                "port": 8080,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": None
+            },
+            "celery_worker": {
+                "status": "down",
+                "port": None,
+                "auto_restart": True,
+                "restart_attempts": 4,
+                "max_restart_attempts": 5,
+                "depends_on": ["redis"],
+                "last_error": "connection to redis refused"
+            },
+            "redis": {
+                "status": "down",
+                "port": 6379,
+                "auto_restart": False,
+                "restart_attempts": 0,
+                "max_restart_attempts": 3,
+                "depends_on": [],
+                "last_error": "OOM: out of memory"
+            }
+        }
+    },
+    "srv-us-02": {
+        "hostname": "nova-virginia-02",
+        "region": "us-east",
+        "datacenter": "Virginia",
+        "status": "online",
+        "os": "Ubuntu 20.04",
+        "uptime_hours": 5,
+        "cpu_usage_percent": 78,
+        "ram_usage_percent": 82,
+        "disk_usage_percent": 60,
+        "tags": ["production", "web", "high-traffic"],
+        "on_call_team": "team-gamma",
+        "services": {
+            "nginx": {
+                "status": "online",
+                "port": 80,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": None
+            },
+            "docker_daemon": {
+                "status": "down",
+                "port": None,
+                "auto_restart": False,
+                "restart_attempts": 0,
+                "max_restart_attempts": 0,
+                "depends_on": [],
+                "last_error": "failed to start containerd"
+            }
+        }
+    },
+    "srv-ap-01": {
+        "hostname": "nova-singapore-01",
+        "region": "ap-southeast",
+        "datacenter": "Singapore",
+        "status": "online",
+        "os": "Ubuntu 22.04",
+        "uptime_hours": 200,
+        "cpu_usage_percent": 35,
+        "ram_usage_percent": 50,
+        "disk_usage_percent": 70,
+        "tags": ["production", "cdn"],
+        "on_call_team": "team-delta",
+        "services": {
+            "varnish": {
+                "status": "down",
+                "port": 6081,
+                "auto_restart": True,
+                "restart_attempts": 2,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": "VCL compilation error"
+            },
+            "haproxy": {
+                "status": "online",
+                "port": 443,
+                "auto_restart": True,
+                "restart_attempts": 0,
+                "max_restart_attempts": 5,
+                "depends_on": [],
+                "last_error": None
+            }
+        }
+    }
+}</code></pre>
+    </section>
+
+    <section class="panel" id="tasks">
+      <h2>Your tasks</h2>
+      <div class="task-list">
+        <article class="task">
+          <div class="task-num">1</div>
+          <h3>Basic inventory</h3>
+          <p>Print a summary of every server: server ID, hostname, region, datacenter, and current server status. Make it readable and clean, one server per line.</p>
+        </article>
+        <article class="task">
+          <div class="task-num">2</div>
+          <h3>Region filter</h3>
+          <p>Ask the user to enter a region such as <code>eu-central</code>, <code>eu-west</code>, <code>us-east</code>, or <code>ap-southeast</code>. Show only the matching servers, plus their status and hostnames.</p>
+        </article>
+        <article class="task">
+          <div class="task-num">3</div>
+          <h3>Find all down services</h3>
+          <p>Loop through every server and every service. Collect all services whose status is <code>down</code>. For each one, display the server ID, hostname, service name, last error, and which team owns that server.</p>
+        </article>
+        <article class="task">
+          <div class="task-num">4</div>
+          <h3>Restart decision logic</h3>
+          <p>For each down service, determine whether it can be restarted or not. Do not actually restart anything in this task. Just decide whether restart is allowed and print the reason clearly.</p>
+          <ul>
+            <li>Cannot restart if the server itself is <code>down</code>.</li>
+            <li>Cannot restart if <code>auto_restart</code> is <code>False</code>.</li>
+            <li>Cannot restart if <code>restart_attempts</code> is equal to <code>max_restart_attempts</code>.</li>
+            <li>Cannot restart if <code>max_restart_attempts</code> is <code>0</code>.</li>
+            <li>Cannot restart if any service listed in <code>depends_on</code> is also down on the same server.</li>
+            <li>Can restart only if none of the blockers above exist.</li>
+          </ul>
+        </article>
+        <article class="task">
+          <div class="task-num">5</div>
+          <h3>Resource danger zones</h3>
+          <p>Find all servers where at least one resource is in a dangerous range.</p>
+          <ul>
+            <li>CPU above 85%</li>
+            <li>RAM above 85%</li>
+            <li>Disk above 90%</li>
+          </ul>
+          <p>Your output should say exactly what resource is dangerous on each matching server.</p>
+        </article>
+        <article class="task">
+          <div class="task-num">6</div>
+          <h3>Team alert report</h3>
+          <p>Group affected servers by <code>on_call_team</code>. Only include servers that have at least one down service. Show which team should be alerted and which servers belong to that team.</p>
+        </article>
+        <article class="task">
+          <div class="task-num">7</div>
+          <h3>Tag filter</h3>
+          <p>Ask the user for a tag such as <code>production</code>, <code>staging</code>, <code>database</code>, or <code>web</code>. Print all servers that include that tag, together with the number of down services on each server.</p>
+        </article>
+        <article class="task">
+          <div class="task-num">8</div>
+          <h3>Action script challenge</h3>
+          <p>Create a separate script that <span class="accent">tries</span> to turn on services after checking them. This script must first inspect each service and decide whether an action is valid based on the operational rules. If a service is down and all restart conditions are satisfied, the script should attempt to mark it as started. If a service is down but cannot be started, the script should skip it and clearly print the reason.</p>
+          <div class="callout danger">Important: this task is part of the problem statement. Do not forget it. The script should never try to start services blindly.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="rules">
+      <h2>Operational rules</h2>
+      <div class="rule-list">
+        <article class="rule"><strong>Rule 1:</strong> If the server is down, you cannot act on its services at all.</article>
+        <article class="rule"><strong>Rule 2:</strong> A service with a dependency cannot start until all required dependencies on the same server are online.</article>
+        <article class="rule"><strong>Rule 3:</strong> If <code>auto_restart</code> is false, the service requires manual intervention.</article>
+        <article class="rule"><strong>Rule 4:</strong> If <code>max_restart_attempts</code> is 0, the service is not configured for restart attempts.</article>
+        <article class="rule"><strong>Rule 5:</strong> If restart attempts already reached the maximum, no more attempts are allowed.</article>
+        <article class="rule"><strong>Rule 6:</strong> A degraded server is reachable but unstable. Treat it as a warning, not as a full blocker.</article>
+        <article class="rule"><strong>Rule 7:</strong> If <code>port</code> is <code>None</code>, that does not automatically mean the service is broken. It may be a worker or daemon.</article>
+        <article class="rule"><strong>Rule 8:</strong> Very high disk usage may explain storage errors such as <code>no space left on device</code>.</article>
+        <article class="rule"><strong>Rule 9:</strong> Very high RAM usage may help explain memory-related service failures such as OOM errors.</article>
+        <article class="rule"><strong>Rule 10:</strong> One server can have multiple different problems at the same time. Your logic should not stop at the first issue.</article>
+      </div>
+    </section>
+
+    <section class="panel" id="extras">
+      <h2>Creative extras</h2>
+      <div class="grid cols-2">
+        <div class="tips">
+          <h3>Extra filters you can build</h3>
+          <ul>
+            <li>Filter only production servers in <code>eu-central</code>.</li>
+            <li>Filter only servers owned by <code>team-alpha</code>.</li>
+            <li>Filter only servers with status <code>degraded</code>.</li>
+            <li>Filter only services with dependency problems.</li>
+            <li>Filter only services failing because of storage or memory symptoms.</li>
+            <li>Filter only background services where <code>port</code> is <code>None</code>.</li>
+          </ul>
+        </div>
+        <div class="extension">
+          <h3>Hard-mode ideas</h3>
+          <ul>
+            <li>Create a menu so the user can choose which report to run.</li>
+            <li>Store findings in new dictionaries or tuples for later reporting.</li>
+            <li>Sort outputs by region, server status, or number of failures.</li>
+            <li>Add a maintenance mode tag and treat it differently from outages.</li>
+            <li>Add a timestamp field later and report the newest failures first.</li>
+            <li>Create a final incident summary for each affected server.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout success">Important reminder: your goal is to practice data navigation, filtering, conditions, and operational reasoning. The challenge is to design your own solution, not to copy one.</div>
+      <p class="footer-note">Use this as your personal coding exercise sheet. Start simple, then improve the program step by step.</p>
+    </section>
+  </div>
+</body>
+</html>
