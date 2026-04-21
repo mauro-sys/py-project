@@ -35,8 +35,7 @@ def region_filter(servers):
         server_status = server.get("status")
         if user_input_region == server_region:
             print(f'''------------------------------------------------------
-             {server_name}  :  {server_status}
-            ''')
+             {server_name}  :  {server_status}''')
 
 
 def team_alert():
@@ -45,7 +44,7 @@ def team_alert():
         # fucion alert to support team
         print("\nRespective support team has been alerted about the problems and will get back to you.\n")
     elif ask == "n":
-        print("\nGoodbye!\n")
+        print("\nNo alert was sent.\n")
     else:
         print("\nWrong Input! Try again.")
         team_alert()

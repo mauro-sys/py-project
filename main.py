@@ -336,7 +336,6 @@ formatted_server_list = [
 ]
 
 
-
 # ---------------------------   STEP 2: SUMMARY   ------------------------
 
 # server_summary(formatted_server_list)
@@ -379,18 +378,17 @@ formatted_server_list = [
 
 
 
-# MAIN MNU
+# MAIN MENU
 
 
 def go_back():
-    Q = input("Do you want to go Back to MAIN MANU or Quit? B or Q: ").lower()
+    Q = input("Do you want to go Back to MAIN MENU or Quit? B or Q: ").lower()
     if Q == "b":
         print("------Going back to Main Menu------")
         start()
     elif Q == "q":
-        print("Goodbye")
-        main_menu = False
-
+        print("Goodbye!")
+        return False
     else:
         print("Wrong Input")
         go_back()
@@ -430,29 +428,30 @@ def start():
     while main_menu == True:
         if user_input == "1":
             server_summary(formatted_server_list)
-            go_back()
+            main_menu = go_back()
             
         elif user_input == "2":
             region_filter(formatted_server_list)
-            go_back()
+            main_menu = go_back()
 
         elif user_input == "3":
             status_problems(formatted_server_list)
-            go_back()
+            main_menu = go_back()
 
         elif user_input == "4":
             resourse_problems(formatted_server_list)
-            go_back()
+            main_menu = go_back()
 
         elif user_input == "5":
             tag_filter(formatted_server_list)
-            go_back()
+            main_menu = go_back()
 
         elif user_input == "6":
             restart(formatted_server_list)
-            go_back()
+            main_menu = go_back()
 
         elif user_input == "0":
+            print("Goodbye!")
             main_menu = False
 
         else:
@@ -460,7 +459,7 @@ def start():
             print("Try again!")
             start()
 
-    print("Goodbye!")
+    
 
 
  
