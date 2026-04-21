@@ -39,14 +39,18 @@ def region_filter(servers):
 
 
 def team_alert():
-    ask = input("\nDo you want to alert the respective support team? Y or N: ").lower()
-    if ask == "y":
-        # fucion alert to support team
-        print("\nRespective support team has been alerted about the problems and will get back to you.\n")
-    elif ask == "n":
-        print("\nNo alert was sent.\n")
-    else:
-        print("\nWrong Input! Try again.")
+    try:
+        ask = input("\nDo you want to alert the respective support team? Y or N: ").lower()
+        if ask == "y":
+            # fucion alert to support team
+            print("\nRespective support team has been alerted about the problems and will get back to you.\n")
+        elif ask == "n":
+            print("\nNo alert was sent.\n")
+        else:
+            print("\nWrong Input! Try again.")
+            team_alert()
+    except KeyboardInterrupt:
+        print("Can't interrupt this part!")
         team_alert()
 
 
