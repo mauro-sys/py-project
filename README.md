@@ -11,9 +11,8 @@ dictionary, filter useful information, identify what is broken, and decide what 
 
 USE:
 
-rules.py to read the rules
-main.py to read the server infos and solution
-functions.py to read the functions
+main.py to look at solution
+functions.py to look at functions
 index.html for a summary of the problem
 
 -------------------------------------------------------

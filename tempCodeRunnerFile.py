@@ -1,1 +1,0 @@
-server_summary(formatted_server_list)
