@@ -1,4 +1,4 @@
-from functions import formatting_dictionary_to_list, server_summary, region_filter, status_problems, resourse_problems, team_alert, tag_filter, restart
+from functions import formatting_dictionary_to_list, server_summary, region_filter, status_problems, resourse_problems, team_alert, tag_filter, restart, go_back, intro, start
 
 
 infrastructure = {
@@ -373,96 +373,9 @@ formatted_server_list = [
 
 # restart(formatted_server_list)
 
-# -----------------------------------------done-------------------------------------
 
+# -----------------------------   STEP 8: MAIN MENU Start   ------------------------
 
-
-
-# MAIN MENU
-
-
-def go_back():
-    Q = input("Do you want to go Back to MAIN MENU or Quit? B or Q: ").lower()
-    if Q == "b":
-        print("------Going back to Main Menu------")
-        start()
-    elif Q == "q":
-        print("Goodbye!")
-        return False
-    else:
-        print("Wrong Input")
-        go_back()
-
-def intro():
-        print('''
-        ----------------------------------------------------------
-        |                                                        |
-        |                                                        |
-        |        Welcome to SERVER MANAGEMENT PROJECT! :)        |
-        |                                                        |
-        |                                                        |
-        |            Press respective key to continue:           |
-        |                                                        |
-        |                                                        |
-        |                 1. Servers Summary                     |
-        |                 2. Region Filter                       |
-        |                 3. Status Problems                     |
-        |                 4. Resource Problems                   |
-        |                 5. Tag Filter Search                   |
-        |                 6. Service Restart                     |
-        |                                                        |
-        |                                                        |
-        |                 0. SHUT DOWN                           |
-        |                                                        |
-        |                                                        |
-        ----------------------------------------------------------''')
-        
-def start():
-    
-    main_menu = True
-    
-    intro()
-
-    user_input = input("Pick a number 0-6 based on your needs:")
-
-    while main_menu == True:
-        if user_input == "1":
-            server_summary(formatted_server_list)
-            main_menu = go_back()
-            
-        elif user_input == "2":
-            region_filter(formatted_server_list)
-            main_menu = go_back()
-
-        elif user_input == "3":
-            status_problems(formatted_server_list)
-            main_menu = go_back()
-
-        elif user_input == "4":
-            resourse_problems(formatted_server_list)
-            main_menu = go_back()
-
-        elif user_input == "5":
-            tag_filter(formatted_server_list)
-            main_menu = go_back()
-
-        elif user_input == "6":
-            restart(formatted_server_list)
-            main_menu = go_back()
-
-        elif user_input == "0":
-            print("Goodbye!")
-            main_menu = False
-
-        else:
-            print("Wrong input!")
-            print("Try again!")
-            start()
-
-    
-
-
- 
-start()
+start(formatted_server_list)
 
 
